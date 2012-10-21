@@ -1,0 +1,19 @@
+application: audiohacking
+version: 0-1
+runtime: python27
+api_version: 1
+threadsafe: true
+default_expiration: "0m"
+
+handlers:
+
+- url: /
+  static_files: index.html
+  upload: index.html
+
+- url: /script
+  static_dir: script
+
+- url: /audio
+  static_dir: audio
+
