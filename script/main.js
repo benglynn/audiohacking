@@ -7,11 +7,11 @@
 
 	var 
 	onWindowLoad,
-	context, loadBuffers, onBufferLoad, playAudio,
-	names = ['bd', 'sn'],
-	buffers = [];
+	context, loadSamples, onSampleload, playAudio,
+	urls = ['audio/bd.mp3', 'audio/sn.mp3', 'audio/clp.mp3'],
+	samples = [];
 
-	onBufferLoad = function(e) {
+	onSampleload = function(e) {
 		var request = e.target;
 		context.decodeAudioData(
 			request.response, function (buffer) {
@@ -23,15 +23,13 @@
 	};
 
 
-	loadBuffers = function () {
-		names.forEach(function (name, i) {
+	loadSamples = function () {
+		urls.forEach(function (url, i) {
 
-			var request, url = 'audio/' + name + '.mp3';
-			
-			request = new XMLHttpRequest();
+			var request = new XMLHttpRequest();
 			request.open('GET', url, true);
 			request.responseType = 'arraybuffer';
-			request.onload = onBufferLoad;
+			request.onload = onSampleload;
 			request.send();
 		});
 	};
@@ -41,6 +39,7 @@
 		var source = context.createBufferSource();
 		source.buffer = buffer;
 		source.connect(context.destination);
+		source.playbackRate.value = 0;
 		source.noteOn(0);
 	};
 
@@ -52,7 +51,7 @@
 			console.error('Unbale to instantiate audio context');
 		}
 		if (context) {
-			loadBuffers(context);
+			loadSamples(context);
 		}
 	};
 
