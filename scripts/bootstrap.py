@@ -5,9 +5,8 @@ import subprocess
 
 dirname = os.path.dirname(os.path.abspath(__file__))
 
-
-print('\nImport `jasmine-node` into `jstests`')
-os.chdir(os.path.join(dirname, 'jstests'))
-print(os.getcwd())
+os.chdir(os.path.join(dirname, os.pardir))
+print('\nImporting node_modules into %s') % os.getcwd()
+print('jasmine_node')
 err = subprocess.call('npm install jasmine-node', shell=True)
 print('\nYou can run js tests with `./jstests/test.js`')
