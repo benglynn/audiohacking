@@ -1,17 +1,21 @@
 /*jslint nomen:true, white:true */
 /*global window, console, XMLHttpRequest */
 
+var root = this;
+
 (function () {
 
 	"use strict";
 
 	var 
+	root = this,
 	onWindowLoad,
-	context, loadSamples, onSampleload, playAudio,
-	urls = ['audio/bd.mp3', 'audio/sn.mp3', 'audio/clp.mp3'],
+	context, loadSamples, onSampleLoad, playAudio,
+	plusone,
+	urls = ['static/mp3/bd.mp3', 'static/mp3/sn.mp3', 'static/mp3/clp.mp3'],
 	samples = [];
-
-	onSampleload = function(e) {
+	
+	onSampleLoad = function(e) {
 		var request = e.target;
 		context.decodeAudioData(
 			request.response, function (buffer) {
@@ -29,7 +33,7 @@
 			var request = new XMLHttpRequest();
 			request.open('GET', url, true);
 			request.responseType = 'arraybuffer';
-			request.onload = onSampleload;
+			request.onload = onSampleLoad;
 			request.send();
 		});
 	};
@@ -43,8 +47,11 @@
 		source.noteOn(0);
 	};
 
+	plusone = function (num) {
+		return num + 1;
+	};
+
 	onWindowLoad = function () {
-		// Get context and kick off
 		try {
 			context = new window.webkitAudioContext();
 		} catch (e) {
@@ -55,6 +62,10 @@
 		}
 	};
 
-	window.addEventListener('load', onWindowLoad, false);
-
+	if(typeof exports === 'undefined') {
+		window.addEventListener('load', onWindowLoad, false);
+	} else {
+		// Export for node.js
+		exports.plusone = plusone;
+	}
 }());
