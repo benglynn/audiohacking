@@ -8,11 +8,11 @@ var root = this;
 	"use strict";
 
 	var 
+	MP3DIR = 'mp3',
 	root = this,
 	onWindowLoad,
 	context, loadSamples, onSampleLoad, playAudio,
 	plusone,
-	urls = ['mp3/bd.mp3', 'mp3/sn.mp3', 'mp3/clp.mp3'],
 	samples = [];
 	
 	onSampleLoad = function(e) {
@@ -27,11 +27,11 @@ var root = this;
 	};
 
 
-	loadSamples = function () {
-		urls.forEach(function (url, i) {
+	loadSamples = function (manifest, context) {
+		Object.keys(manifest).forEach(function (name, i) {
 
 			var request = new XMLHttpRequest();
-			request.open('GET', url, true);
+			request.open('GET', MP3DIR + '/' + name, true);
 			request.responseType = 'arraybuffer';
 			request.onload = onSampleLoad;
 			request.send();
@@ -52,13 +52,24 @@ var root = this;
 	};
 
 	onWindowLoad = function () {
+
+		var onManifestLoad;
+
+		onManifestLoad = function (e) {
+			loadSamples(JSON.parse(e.target.response), context);
+		};
+
 		try {
 			context = new window.webkitAudioContext();
 		} catch (e) {
 			console.error('Unbale to instantiate audio context');
 		}
 		if (context) {
-			loadSamples(context);
+			// Load the mp3 manifest
+			var request = new XMLHttpRequest();
+			request.open('GET', MP3DIR + '/manifest.json', true);
+			request.onload = onManifestLoad;
+			request.send();
 		}
 	};
 
