@@ -12,7 +12,7 @@ var root = this;
 	onWindowLoad,
 	context, loadSamples, onSampleLoad, playAudio,
 	plusone,
-	urls = ['static/mp3/bd.mp3', 'static/mp3/sn.mp3', 'static/mp3/clp.mp3'],
+	urls = ['mp3/bd.mp3', 'mp3/sn.mp3', 'mp3/clp.mp3'],
 	samples = [];
 	
 	onSampleLoad = function(e) {
