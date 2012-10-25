@@ -10,7 +10,7 @@ var root = this;
 	var 
 	MP3DIR = 'mp3',
 	root = this,
-	onWindowLoad,
+	init,
 	context, loadSamples, onSampleLoad, playAudio,
 	plusone,
 	samples = [];
@@ -51,7 +51,7 @@ var root = this;
 		return num + 1;
 	};
 
-	onWindowLoad = function () {
+	init = function () {
 
 		var onManifestLoad;
 
@@ -71,11 +71,9 @@ var root = this;
 			request.onload = onManifestLoad;
 			request.send();
 		}
-	};
+	}();
 
-	if(typeof exports === 'undefined') {
-		window.addEventListener('load', onWindowLoad, false);
-	} else {
+	if(typeof exports !== 'undefined') {
 		// Export for node.js
 		exports.plusone = plusone;
 	}
