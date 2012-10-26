@@ -26,7 +26,6 @@ define(['app/audiocontext'], function (audioContext) {
 			request.response,
 			function (buffer) {
 				sample.buffer = buffer;
-				console.log(sample);
 				sample.play();
 			},
 			function () {
