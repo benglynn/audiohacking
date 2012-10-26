@@ -1,4 +1,4 @@
-var plusone = require('../static/js/main.js').plusone;
+var plusone = require('../static/js/jasmine.js').plusone;
 
 describe('plusone', function() {
 	it('adds one to a number', function() {
