@@ -7,7 +7,6 @@ define(['app/audiocontext'], function (audioContext) {
 
 	var load, onLoad, play, prototype, create;
 
-
 	load = function () {
 		var request = new XMLHttpRequest();
 		request.open('GET', this.url, true);
@@ -16,10 +15,10 @@ define(['app/audiocontext'], function (audioContext) {
 		request.send();
 	};
 
-	onLoad = function (e) {
-		
-		var 
-		sample = this,
+    onLoad = function (e) {
+
+        var 
+        sample = this,
 		request = e.target;
 
 		audioContext.context.decodeAudioData(
@@ -33,36 +32,46 @@ define(['app/audiocontext'], function (audioContext) {
 			});
 	};
 
-	play = function () {
-
-		var source = audioContext.context.createBufferSource();
+	play = function (when) {
+        // Creates, fills and connects a source, then plays it 
+		var source, start;
+        when = when !== null ? when : 0;
+        
+        source = audioContext.context.createBufferSource();
 		source.buffer = this.buffer;
 		source.connect(audioContext.context.destination);
 		source.playbackRate.value = 0;
-		source.noteOn(0);
+       
+        // `noteOn` deprecated, try `start` first
+        if(source.noteOn) {
+            source.noteOn(when);
+
+        } else {
+            source.play(when);
+        }
 	};
 
 	prototype = Object.create({}, {
+        // The prototype for sample objects
 		load: {value: load},
 		onLoad: {value: onLoad},
 		play: {value: play}
 	});
 
 	create = function (name, url, bytes) {
-
+        // Factory 
 		var sample = Object.create(
 			prototype, {
 				name: {value: name},
 				bytes: {value: bytes},
 				url: {value: url},
-				samples: {value:null}
+				samples: {value: null}
 		});
-
 		sample.load();
-
 		return sample;
 	};
 
+    // Just the factory is public
 	return {
 		create : create
 	};
