@@ -1,5 +1,5 @@
 /*jslint nomen:true, white:true */
-/*global requirejs, define, console */
+/*global requirejs, define, console, XMLHttpRequest */
 
 "use strict";
 
@@ -29,7 +29,7 @@ define(['app/audiocontext'], function (audioContext) {
 				sample.play();
 			},
 			function () {
-				console.error('Error decoding audio for ' + this.name);
+				throw {name: 'AudioDecode', message: 'Error decoding ' + this.name};
 			});
 	};
 
