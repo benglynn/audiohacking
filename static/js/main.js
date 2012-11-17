@@ -12,11 +12,19 @@ requirejs.config({
 
 requirejs(['app/sample', 'app/manifest'], function (sample, manifest) {
 
-	var mp3s = {};
+	var samples = {};
 
 	// Iterate over manifest and instantiate mp3s
 	manifest.mp3.forEach(function (mp3) {
-		mp3s[mp3.name] = sample.create(mp3.name, mp3.url, mp3.bytes);
+		samples[mp3.name] = sample.create(mp3.name, mp3.url, mp3.bytes);
 	});
 
+    // Clumsy in lieu of load listener
+    setTimeout(function () {
+        samples.bd.play(0);
+        samples.sn.play(0.25);
+        samples.clp.play(0.5);
+        samples.sn.play(0.75);
+        samples.bd.play(1);
+    }, 250);
 });

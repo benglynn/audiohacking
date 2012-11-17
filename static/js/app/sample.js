@@ -25,7 +25,6 @@ define(['app/audiocontext'], function (audioContext) {
 			request.response,
 			function (buffer) {
 				sample.buffer = buffer;
-				sample.play();
 			},
 			function () {
 				throw {name: 'AudioDecode', message: 'Error decoding ' + this.name};
@@ -34,6 +33,7 @@ define(['app/audiocontext'], function (audioContext) {
 
 	play = function (when) {
         // Creates, fills and connects a source, then plays it 
+        console.log(this.buffer);
 		var source, start;
         when = when !== null ? when : 0;
         
